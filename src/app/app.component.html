@@ -1,0 +1,32 @@
+<div class="app-container">
+  <header>
+    <h1>Project Manager</h1>
+    <p>Professional Task Tracking</p>
+  </header>
+
+  <section class="input-section">
+    <input 
+      [(ngModel)]="newTaskTitle" 
+      (keyup.enter)="addTask()" 
+      placeholder="What is the next milestone?"
+      aria-label="New task title"
+    />
+    <button (click)="addTask()" [disabled]="!newTaskTitle.trim()">Add Task</button>
+  </section>
+
+  <main>
+    <div *ngIf="tasks.length === 0" class="empty-state">
+      <p>No active tasks. Take a break or start a new project!</p>
+    </div>
+
+    <ul class="task-list">
+      <li *ngFor="let task of tasks" [class.is-done]="task.completed">
+        <div class="task-content" (click)="toggleTask(task)">
+          <span class="checkbox">{{ task.completed ? '✓' : '' }}</span>
+          <span class="title">{{ task.title }}</span>
+        </div>
+        <button class="btn-delete" (click)="deleteTask(task.id)" title="Delete Task">×</button>
+      </li>
+    </ul>
+  </main>
+</div>
