@@ -2,28 +2,34 @@ import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TaskService } from '../../services/task.service';
+import { AuthService } from '../../services/auth'; // Ensure this path is correct
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  // Ensure these match your actual filenames exactly
-  templateUrl: './task-list.html', // Matches 'task-list.html' from your ls
+  templateUrl: './task-list.html',
   styleUrl: './task-list.css'
 })
 export class TaskListComponent implements OnInit {
   newTaskTitle = '';
   tasks = signal<any[]>([]);
 
-  constructor(public taskService: TaskService) { }
+  constructor(
+    public taskService: TaskService,
+    private authService: AuthService // Injected to handle logout
+  ) { }
 
   ngOnInit() {
     this.loadTasks();
   }
 
   loadTasks() {
-    this.taskService.getTasks().subscribe((data: any) => {
-      this.tasks.set(data);
+    this.taskService.getTasks().subscribe({
+      next: (data: any) => {
+        this.tasks.set(data);
+      },
+      error: (err) => console.error('Failed to load tasks:', err)
     });
   }
 
@@ -32,19 +38,23 @@ export class TaskListComponent implements OnInit {
       this.taskService.addTask(this.newTaskTitle).subscribe({
         next: () => {
           this.newTaskTitle = '';
-          this.loadTasks(); // This refreshes the list from MongoDB
+          this.loadTasks();
         },
         error: (err) => console.error('Add failed:', err)
       });
     }
   }
 
-  // ADD THESE: Fixes "Property does not exist" errors
   onDelete(id: string) {
     this.taskService.deleteTask(id).subscribe(() => this.loadTasks());
   }
 
   onToggle(task: any) {
+    // Toggles the completion status in the database
     this.taskService.toggleTask(task._id, task.completed).subscribe(() => this.loadTasks());
+  }
+
+  onLogout() {
+    this.authService.logout(); // Clears token and redirects
   }
 }

@@ -1,7 +1,10 @@
 <div class="app-shell">
     <div class="header">
         <h1>Project Tracker</h1>
-        <span class="badge">{{ tasks().length }} Tasks</span>
+        <div class="header-right">
+            <span class="badge">{{ tasks().length }} Tasks</span>
+            <button class="logout-link" (click)="onLogout()">Logout</button>
+        </div>
     </div>
 
     <div class="input-card">

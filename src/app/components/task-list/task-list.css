@@ -12,9 +12,16 @@
     margin-bottom: 2rem;
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 h1 {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     margin: 0;
+    color: #1f2937;
 }
 
 .badge {
@@ -22,6 +29,21 @@ h1 {
     padding: 0.4rem 0.8rem;
     border-radius: 20px;
     font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.logout-link {
+    background: transparent;
+    color: #ef4444;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+}
+
+.logout-link:hover {
+    text-decoration: underline;
 }
 
 .input-card {
@@ -36,6 +58,7 @@ input {
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 1rem;
+    outline-color: #6366f1;
 }
 
 button {
@@ -45,10 +68,16 @@ button {
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover:not(:disabled) {
+    background: #4f46e5;
 }
 
 button:disabled {
     background: #ccc;
+    cursor: not-allowed;
 }
 
 .task-item {
@@ -60,6 +89,7 @@ button:disabled {
     border-radius: 12px;
     margin-bottom: 0.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f3f4f6;
 }
 
 .task-left {
@@ -67,23 +97,26 @@ button:disabled {
     align-items: center;
     gap: 1rem;
     cursor: pointer;
+    flex: 1;
 }
 
 .check-box {
     width: 20px;
     height: 20px;
     border: 2px solid #ddd;
-    border-radius: 4px;
+    border-radius: 6px;
+    transition: all 0.2s;
 }
 
 .completed .check-box {
     background: #6366f1;
     border-color: #6366f1;
+    position: relative;
 }
 
 .completed span {
     text-decoration: line-through;
-    color: #888;
+    color: #9ca3af;
 }
 
 .delete-btn {
@@ -91,4 +124,15 @@ button:disabled {
     color: #ef4444;
     padding: 0.4rem 0.8rem;
     font-size: 0.8rem;
+    border-radius: 6px;
+}
+
+.delete-btn:hover {
+    background: #fecaca;
+}
+
+.empty-state {
+    text-align: center;
+    color: #6b7280;
+    margin-top: 3rem;
 }
