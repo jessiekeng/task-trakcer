@@ -7,8 +7,9 @@ import { TaskService } from '../../services/task.service';
   selector: 'app-task-list',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './task-list.html', // Fixed: matches your folder
-  styleUrl: './task-list.css'      // Fixed: matches your folder
+  // Ensure these match your actual filenames exactly
+  templateUrl: './task-list.html', // Matches 'task-list.html' from your ls
+  styleUrl: './task-list.css'
 })
 export class TaskListComponent implements OnInit {
   newTaskTitle = '';
@@ -33,5 +34,14 @@ export class TaskListComponent implements OnInit {
         this.loadTasks();
       });
     }
+  }
+
+  // ADD THESE: Fixes "Property does not exist" errors
+  onDelete(id: string) {
+    this.taskService.deleteTask(id).subscribe(() => this.loadTasks());
+  }
+
+  onToggle(task: any) {
+    this.taskService.toggleTask(task._id, task.completed).subscribe(() => this.loadTasks());
   }
 }
