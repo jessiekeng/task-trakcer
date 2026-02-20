@@ -3,13 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
-    private apiUrl = 'http://localhost:5001/api/tasks';
+    // REMOVED localhost:5001 - This now works on both your computer and Render!
+    private apiUrl = '/api/tasks';
 
     constructor(private http: HttpClient) { }
 
-    // Helper method to attach your security token
     private getHeaders() {
-        const token = localStorage.getItem('token'); // Ensure this matches the key in login.ts
+        const token = localStorage.getItem('token');
         return new HttpHeaders().set('Authorization', `Bearer ${token}`);
     }
 
@@ -26,6 +26,7 @@ export class TaskService {
     }
 
     toggleTask(id: string, completed: boolean) {
-        return this.http.put(`${this.apiUrl}/${id}`, { completed }, { headers: this.getHeaders() });
+        // We send !completed to the backend to flip the status
+        return this.http.put(`${this.apiUrl}/${id}`, { completed: !completed }, { headers: this.getHeaders() });
     }
 }

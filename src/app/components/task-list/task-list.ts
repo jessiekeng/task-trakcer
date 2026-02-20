@@ -2,7 +2,7 @@ import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TaskService } from '../../services/task.service';
-import { AuthService } from '../../services/auth'; // Ensure this path is correct
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-task-list',
@@ -17,7 +17,7 @@ export class TaskListComponent implements OnInit {
 
   constructor(
     public taskService: TaskService,
-    private authService: AuthService // Injected to handle logout
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -29,7 +29,8 @@ export class TaskListComponent implements OnInit {
       next: (data: any) => {
         this.tasks.set(data);
       },
-      error: (err) => console.error('Failed to load tasks:', err)
+      // Fixed: Added ': any' to 'err'
+      error: (err: any) => console.error('Failed to load tasks:', err)
     });
   }
 
@@ -40,7 +41,8 @@ export class TaskListComponent implements OnInit {
           this.newTaskTitle = '';
           this.loadTasks();
         },
-        error: (err) => console.error('Add failed:', err)
+        // Fixed: Added ': any' to 'err'
+        error: (err: any) => console.error('Add failed:', err)
       });
     }
   }
@@ -50,11 +52,11 @@ export class TaskListComponent implements OnInit {
   }
 
   onToggle(task: any) {
-    // Toggles the completion status in the database
-    this.taskService.toggleTask(task._id, task.completed).subscribe(() => this.loadTasks());
+    // Note: We send !task.completed to flip the status in the DB
+    this.taskService.toggleTask(task._id, !task.completed).subscribe(() => this.loadTasks());
   }
 
   onLogout() {
-    this.authService.logout(); // Clears token and redirects
+    this.authService.logout();
   }
 }
