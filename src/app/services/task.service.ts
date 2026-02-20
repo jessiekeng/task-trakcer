@@ -7,9 +7,9 @@ export class TaskService {
 
     constructor(private http: HttpClient) { }
 
-    // Helper method to attach the security token
+    // Helper method to attach your security token
     private getHeaders() {
-        const token = localStorage.getItem('token'); // Must match key in login.ts
+        const token = localStorage.getItem('token'); // Ensure this matches the key in login.ts
         return new HttpHeaders().set('Authorization', `Bearer ${token}`);
     }
 
