@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class TaskService {
     private apiUrl = 'http://localhost:5001/api/tasks';
 
     constructor(private http: HttpClient) { }
 
-    // Helper method to attach your security token
+    // Helper method to attach the security token
     private getHeaders() {
-        const token = localStorage.getItem('token'); // Must match what you saved in login.ts
+        const token = localStorage.getItem('token'); // Must match key in login.ts
         return new HttpHeaders().set('Authorization', `Bearer ${token}`);
     }
 
@@ -28,6 +26,6 @@ export class TaskService {
     }
 
     toggleTask(id: string, completed: boolean) {
-        return this.http.put(`${this.apiUrl}/${id}`, { completed: !completed }, { headers: this.getHeaders() });
+        return this.http.put(`${this.apiUrl}/${id}`, { completed }, { headers: this.getHeaders() });
     }
 }
