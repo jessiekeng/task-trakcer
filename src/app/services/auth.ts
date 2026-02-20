@@ -18,7 +18,7 @@ export class AuthService {
       tap((res: any) => {
         // If login is successful, save the token locally
         if (res.token) {
-          localStorage.setItem('task_token', res.token);
+          localStorage.setItem('token', res.token);
         }
       })
     );
@@ -26,10 +26,10 @@ export class AuthService {
 
   // Check if a token exists to see if the user is logged in
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('task_token');
+    return !!localStorage.getItem('token');
   }
 
   logout(): void {
-    localStorage.removeItem('task_token');
+    localStorage.removeItem('token');
   }
 }

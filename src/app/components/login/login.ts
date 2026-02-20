@@ -21,10 +21,6 @@ export class LoginComponent {
     this.authService.login(this.credentials).subscribe({
       next: (res: any) => {
         console.log('Login successful!', res);
-
-        // 🔥 CRITICAL FIX: Save the token here so TaskService can find it!
-        localStorage.setItem('token', res.token);
-
         this.router.navigate(['/tasks']);
       },
       error: (err: any) => {
