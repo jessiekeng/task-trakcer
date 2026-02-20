@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../services/auth';
+import { AuthService } from '../../services/auth'; // Fixed: matches auth.ts
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -19,11 +19,11 @@ export class LoginComponent {
 
   onLogin() {
     this.authService.login(this.credentials).subscribe({
-      next: (res: any) => { // Adding :any fixes the ts(7006) error
+      next: (res: any) => { // Added type
         console.log('Login successful!', res);
         this.router.navigate(['/tasks']);
       },
-      error: (err: any) => { // Adding :any fixes the ts(7006) error
+      error: (err: any) => { // Added type
         this.errorMessage = 'Invalid username or password';
         console.error(err);
       }
