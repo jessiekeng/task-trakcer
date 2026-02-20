@@ -13,7 +13,7 @@ export class TaskService {
     constructor(private http: HttpClient) { }
 
     private getHeaders() {
-        const token = localStorage.getItem('task_token');
+        const token = localStorage.getItem('token');
         return new HttpHeaders().set('Authorization', `Bearer ${token}`);
     }
 

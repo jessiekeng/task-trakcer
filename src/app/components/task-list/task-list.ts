@@ -29,9 +29,12 @@ export class TaskListComponent implements OnInit {
 
   onAdd() {
     if (this.newTaskTitle.trim()) {
-      this.taskService.addTask(this.newTaskTitle).subscribe(() => {
-        this.newTaskTitle = '';
-        this.loadTasks();
+      this.taskService.addTask(this.newTaskTitle).subscribe({
+        next: () => {
+          this.newTaskTitle = '';
+          this.loadTasks(); // This refreshes the list from MongoDB
+        },
+        error: (err) => console.error('Add failed:', err)
       });
     }
   }
