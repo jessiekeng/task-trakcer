@@ -19,11 +19,15 @@ export class LoginComponent {
 
   onLogin() {
     this.authService.login(this.credentials).subscribe({
-      next: (res: any) => { // Added type
+      next: (res: any) => {
         console.log('Login successful!', res);
+
+        // ADD THIS LINE: It saves the security badge for the TaskService to use
+        localStorage.setItem('token', res.token);
+
         this.router.navigate(['/tasks']);
       },
-      error: (err: any) => { // Added type
+      error: (err: any) => {
         this.errorMessage = 'Invalid username or password';
         console.error(err);
       }
