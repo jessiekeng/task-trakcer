@@ -19,11 +19,11 @@ export class LoginComponent {
 
   onLogin() {
     this.authService.login(this.credentials).subscribe({
-      next: (res) => {
+      next: (res: any) => { // Adding :any fixes the ts(7006) error
         console.log('Login successful!', res);
-        this.router.navigate(['/tasks']); // Redirect to tasks after login
+        this.router.navigate(['/tasks']);
       },
-      error: (err) => {
+      error: (err: any) => { // Adding :any fixes the ts(7006) error
         this.errorMessage = 'Invalid username or password';
         console.error(err);
       }
