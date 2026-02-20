@@ -1,39 +1,33 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
-import { Task } from '../models/task.model';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+    providedIn: 'root'
+})
 export class TaskService {
     private apiUrl = 'http://localhost:5001/api/tasks';
 
-    private tasksSignal = signal<Task[]>([]);
-    tasks = this.tasksSignal.asReadonly();
-
     constructor(private http: HttpClient) { }
 
+    // Helper method to attach your security token
     private getHeaders() {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token'); // Must match what you saved in login.ts
         return new HttpHeaders().set('Authorization', `Bearer ${token}`);
     }
 
-    // FIX: Added missing getTasks method
-    getTasks(): Observable<Task[]> {
-        return this.http.get<Task[]>(this.apiUrl, { headers: this.getHeaders() }).pipe(
-            tap(tasks => this.tasksSignal.set(tasks))
-        );
+    getTasks() {
+        return this.http.get(this.apiUrl, { headers: this.getHeaders() });
     }
 
-    // FIX: Returns Observable so .subscribe() works
-    addTask(title: string): Observable<Task> {
-        return this.http.post<Task>(this.apiUrl, { title }, { headers: this.getHeaders() });
+    addTask(title: string) {
+        return this.http.post(this.apiUrl, { title }, { headers: this.getHeaders() });
     }
 
-    deleteTask(id: string): Observable<any> {
+    deleteTask(id: string) {
         return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
     }
 
-    toggleTask(id: string, completed: boolean): Observable<Task> {
-        return this.http.put<Task>(`${this.apiUrl}/${id}`, { completed: !completed }, { headers: this.getHeaders() });
+    toggleTask(id: string, completed: boolean) {
+        return this.http.put(`${this.apiUrl}/${id}`, { completed: !completed }, { headers: this.getHeaders() });
     }
 }
