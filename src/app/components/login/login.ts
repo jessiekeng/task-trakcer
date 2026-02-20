@@ -22,7 +22,7 @@ export class LoginComponent {
       next: (res: any) => {
         console.log('Login successful!', res);
 
-        // CRITICAL FIX: Save the token so the TaskService can find it
+        // 🔥 CRITICAL FIX: Save the token here so TaskService can find it!
         localStorage.setItem('token', res.token);
 
         this.router.navigate(['/tasks']);
